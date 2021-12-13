@@ -20,9 +20,9 @@ public class SendClientMessageDTO implements Serializable {
     private String comond;
 
     private Integer isUseMiraiCode;
+
     //消息
     private ClientMessage message;
-
 
     //系统消息
     private String systemMessage;

@@ -27,7 +27,6 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
                 this.handshaker.finishHandshake(ch, response);
                 //设置成功
                 this.handshakeFuture.setSuccess();
-                logger.info("服务端的消息" + response.headers());
             } catch (WebSocketHandshakeException var7) {
                 FullHttpResponse res = (FullHttpResponse) msg;
                 String errorMsg = String.format("握手失败,status:%s,reason:%s", res.status(), res.content().toString(CharsetUtil.UTF_8));
@@ -42,7 +41,7 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
             //文本信息
             if (frame instanceof TextWebSocketFrame) {
                 TextWebSocketFrame textFrame = (TextWebSocketFrame) frame;
-                logger.info("客户端接收的消息是:" + textFrame.text());
+                logger.info("接收服务端消息{}:", textFrame.text());
             }
             //二进制信息
             if (frame instanceof BinaryWebSocketFrame) {
@@ -70,7 +69,7 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("与服务端连接成功");
+        logger.info("链接服务端成功");
     }
 
     /**
@@ -96,6 +95,7 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
         System.out.println("连接异常：" + cause.getMessage());
         ctx.close();
     }
+
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) {
         this.handshakeFuture = ctx.newPromise();

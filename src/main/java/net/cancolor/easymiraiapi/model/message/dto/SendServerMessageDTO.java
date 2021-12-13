@@ -2,6 +2,7 @@ package net.cancolor.easymiraiapi.model.message.dto;
 
 import lombok.Data;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 import net.cancolor.easymiraiapi.model.message.client.send.SendServerMessage;
 
 import java.io.Serializable;
@@ -16,6 +17,7 @@ import java.util.List;
  */
 @ToString
 @Data
+@Accessors(chain = true)
 public class SendServerMessageDTO implements Serializable {
 
     private static final long serialVersionUID = 1192548578270770994L;
@@ -26,11 +28,6 @@ public class SendServerMessageDTO implements Serializable {
     private List<Long> botIdList;
     //发送群id
     private Long groupId;
-
-    //是否私聊,0群聊,1私聊
-
-    private Integer isPrivate;
-
     //消息类型
     private String comond;
 

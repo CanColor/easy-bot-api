@@ -1,8 +1,6 @@
 package net.cancolor.easymiraiapi.init;
 
 
-import net.cancolor.easymiraiapi.config.ServerConfig;
-import net.cancolor.easymiraiapi.handler.WebSocketClientHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -12,12 +10,18 @@ import io.netty.handler.codec.http.DefaultHttpHeaders;
 import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpObjectAggregator;
-import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshakerFactory;
 import io.netty.handler.codec.http.websocketx.WebSocketVersion;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import net.cancolor.easymiraiapi.config.ServerConfig;
+import net.cancolor.easymiraiapi.constent.MessageConstant;
+import net.cancolor.easymiraiapi.handler.WebSocketClientHandler;
+import net.cancolor.easymiraiapi.model.message.dto.SendServerMessageDTO;
+import net.cancolor.easymiraiapi.utils.SendServerMessageUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -45,6 +49,7 @@ public class ImClientInit {
         return channel;
     }
 
+    Logger logger = LoggerFactory.getLogger(ImClientInit.class);
 
     /**
      * 连接服务端
@@ -79,9 +84,8 @@ public class ImClientInit {
         //进行握手
         WebSocketClientHandshaker handshaker = WebSocketClientHandshakerFactory.newHandshaker(websocketURI, WebSocketVersion.V13, (String) null, true, httpHeaders);
         //客户端与服务端连接的通道，final修饰表示只会有一个
-        Channel channel = null;
         try {
-            channel = boot.connect(websocketURI.getHost(), websocketURI.getPort()).sync().channel();
+            this.channel = boot.connect(websocketURI.getHost(), websocketURI.getPort()).sync().channel();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -95,11 +99,19 @@ public class ImClientInit {
             e.printStackTrace();
             return false;
         }
-        System.out.println("握手成功");
+        logger.info("握手成功");
+        login(channel);
         //给服务端发送的内容，如果客户端与服务端连接成功后，可以多次掉用这个方法发送消息
         return true;
     }
 
+    public void login(Channel channel) {
+        SendServerMessageDTO sendServerMessageDTO = new SendServerMessageDTO();
+        sendServerMessageDTO.setComond(MessageConstant.LOGIN);
+        sendServerMessageDTO.setClientId(1);
+        sendServerMessageDTO.setClientName("sb");
+        SendServerMessageUtil.send(channel, sendServerMessageDTO);
+    }
 
 
 }

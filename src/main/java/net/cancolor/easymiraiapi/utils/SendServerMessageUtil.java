@@ -19,7 +19,6 @@ public class SendServerMessageUtil {
     static Logger logger = LoggerFactory.getLogger(SendServerMessageUtil.class);
 
     public static void sendServer(Channel channel, SendServerMessageDTO sendServerMessageDTO) {
-        channel.writeAndFlush(wrapMessage(JSONObject.toJSONString(sendServerMessageDTO)));
         send(channel, sendServerMessageDTO);
         logger.info("发送客户端消息: {}", JSONObject.toJSONString(sendServerMessageDTO));
     }
@@ -56,9 +55,9 @@ public class SendServerMessageUtil {
             @Override
             public void operationComplete(ChannelFuture channelFuture) throws Exception {
                 if (channelFuture.isSuccess()) {
-                    System.out.println("发送客户端消息成功，发送的消息是：" + JSONObject.toJSONString(sendServerMessageDTO));
+                    logger.info("发送客户端消息成功：" + JSONObject.toJSONString(sendServerMessageDTO));
                 } else {
-                    System.out.println("发送客户端消息发送失败 " + channelFuture.cause().getMessage());
+                    logger.info("发送客户端消息失败 " + channelFuture.cause().getMessage());
                 }
 
             }
