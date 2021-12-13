@@ -1,0 +1,56 @@
+package net.cancolor.easymiraiapi.model.message.dto;
+
+import lombok.Data;
+import lombok.ToString;
+import net.cancolor.easymiraiapi.model.message.client.send.SendServerMessage;
+
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * @author SoarDao
+ * @title: SendServerMessageDTO
+ * @projectName easy-mirai-api
+ * @description: TODO
+ * @date 2021/12/12 22:10
+ */
+@ToString
+@Data
+public class SendServerMessageDTO implements Serializable {
+
+    private static final long serialVersionUID = 1192548578270770994L;
+
+    //发送QQid
+    private Long friendId;
+    //机器id
+    private List<Long> botIdList;
+    //发送群id
+    private Long groupId;
+
+    //是否私聊,0群聊,1私聊
+
+    private Integer isPrivate;
+
+    //消息类型
+    private String comond;
+
+    //客户端名称
+    private String clientName;
+
+    //客户端标志
+    private Integer clientId;
+
+
+    //是否使用miraiCode
+    private Integer isUseMiraiCode=0;
+
+    private List<SendServerMessage> sendServerMessageList;
+
+
+    private String miraiCode;
+
+    private String systemMessage;
+
+    private Long time = System.currentTimeMillis();
+
+}
