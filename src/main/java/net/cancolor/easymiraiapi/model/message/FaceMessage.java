@@ -18,5 +18,4 @@ public class FaceMessage implements Serializable {
     private static final long serialVersionUID = 7152831510158185863L;
     
     private Integer id;
-    private String name;
 }

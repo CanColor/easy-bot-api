@@ -9,8 +9,8 @@ package net.cancolor.easymiraiapi.constent;
  */
 public class AtConstant {
 
-    public final static String AT_ALL = "At";
+    public final static String AT_ALL = "AtAll";
 
-    public final static String AT = "AtAll";
+    public final static String AT = "At";
 
 }

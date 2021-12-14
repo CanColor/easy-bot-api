@@ -14,7 +14,7 @@
         <netty-all.version>4.1.71.Final</netty-all.version>
         <okhttp3.version>3.6.0</okhttp3.version>
         <fastjson.version>1.2.78</fastjson.version>
-        <mirai-jvm.version>2.9.0-M1</mirai-jvm.version>
+        <mirai-jvm.version>2.9.0-RC</mirai-jvm.version>
     </properties>
 
     <dependencies>

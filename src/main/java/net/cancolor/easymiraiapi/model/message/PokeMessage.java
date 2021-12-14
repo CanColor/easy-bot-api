@@ -15,9 +15,16 @@ import lombok.ToString;
 public class PokeMessage {
 
 
-    private int id;
     private String name;
-    private int type;
+    private int pokeType;
+    private int id;
 
+    public PokeMessage() {
+    }
 
+    public PokeMessage(String name, int pokeType, int id) {
+        this.id = id;
+        this.name = name;
+        this.pokeType = pokeType;
+    }
 }

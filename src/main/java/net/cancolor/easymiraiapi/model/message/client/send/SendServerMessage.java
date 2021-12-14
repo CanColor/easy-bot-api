@@ -1,10 +1,10 @@
 package net.cancolor.easymiraiapi.model.message.client.send;
 
+import lombok.Data;
+import lombok.ToString;
 import net.cancolor.easymiraiapi.model.message.*;
 import net.cancolor.easymiraiapi.model.message.dto.SendServerFileMessageDTO;
 import net.cancolor.easymiraiapi.model.message.dto.SendServerImageMessageDTO;
-import lombok.Data;
-import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.List;
@@ -38,8 +38,8 @@ public class SendServerMessage implements Serializable {
     private SimpleServiceMessage simpleServiceMessage;
     //加强戳一戳
     private VipFaceMessage vipFaceMessage;
-
-
+    //功能
+    private ContactsMessage contactsMessage;
 
 
 }

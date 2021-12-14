@@ -2,9 +2,12 @@ package net.cancolor.easymiraiapi.channel;
 
 import io.netty.channel.Channel;
 import net.cancolor.easymiraiapi.constent.AtConstant;
+import net.cancolor.easymiraiapi.constent.ContactsConstant;
 import net.cancolor.easymiraiapi.constent.MessageConstant;
 import net.cancolor.easymiraiapi.model.message.AtMessage;
+import net.cancolor.easymiraiapi.model.message.ContactsMessage;
 import net.cancolor.easymiraiapi.model.message.FaceMessage;
+import net.cancolor.easymiraiapi.model.message.PokeMessage;
 import net.cancolor.easymiraiapi.model.message.client.send.SendServerMessage;
 import net.cancolor.easymiraiapi.model.message.dto.SendServerMessageDTO;
 import net.cancolor.easymiraiapi.utils.SendServerMessageUtil;
@@ -28,7 +31,6 @@ public class WebSocketMessageChannel implements MessageChannel {
 
     private SendServerMessageDTO sendServerMessageDTO = new SendServerMessageDTO();
 
-    private WebSocketMessageChannel webSocketMessageChannel ;
 
 
 
@@ -71,23 +73,69 @@ public class WebSocketMessageChannel implements MessageChannel {
 
 
     private WebSocketMessageChannel init(Channel channel, List<Long> botIdList, Long groupId, Long friendId) {
+        sendServerMessageList = new ArrayList<>();
         this.channel = channel;
         sendServerMessageDTO.setGroupId(groupId)
                 .setFriendId(friendId)
                 .setBotIdList(botIdList)
                 .setComond(MessageConstant.CHAT)
                 .setSendServerMessageList(sendServerMessageList);
-        webSocketMessageChannel = this;
-        return webSocketMessageChannel;
+        return this;
     }
 
+
+    @Override
+    public WebSocketMessageChannel nudge() throws Exception {
+        sendContactsMessage(ContactsConstant.NUDGE, null, null, null);
+        return this;
+    }
+
+    @Override
+    public MessageChannel mute(Integer minute) throws Exception {
+        sendContactsMessage(ContactsConstant.MEMBER_MUTE, minute, null, null);
+        return this;
+    }
+
+    @Override
+    public MessageChannel unmute() throws Exception {
+        sendContactsMessage(ContactsConstant.MEMBER_UNMUTE, null, null, null);
+        return this;
+    }
+
+    @Override
+    public MessageChannel kick(String message, Boolean block) throws Exception {
+        sendContactsMessage(ContactsConstant.MEMBER_KICK, null, message, block);
+        return this;
+    }
+
+
+    public void sendContactsMessage(String contactsConstant, Integer minute, String killMessage, Boolean block) throws Exception {
+        if (sendServerMessageDTO.getGroupId() == null && !contactsConstant.equals(ContactsConstant.NUDGE)) {
+            throw new Exception("群专用功能,必须填入群号！");
+        }
+        if (sendServerMessageList != null && sendServerMessageList.size() > 0) {
+            send();
+        }
+        SendServerMessage sendServerMessage = new SendServerMessage();
+        ContactsMessage contactsMessage = new ContactsMessage();
+        contactsMessage.setAction(contactsConstant);
+        if (contactsConstant.equals(ContactsConstant.MEMBER_MUTE)) {
+            contactsMessage.setMinute(minute);
+        } else if (contactsConstant.equals(ContactsConstant.MEMBER_KICK)) {
+            contactsMessage.setKillMessage(killMessage);
+            contactsMessage.setBlock(block);
+        }
+        sendServerMessage.setContactsMessage(contactsMessage);
+        sendServerMessageList.add(sendServerMessage);
+        send();
+    }
 
     @Override
     public WebSocketMessageChannel addPlainText(String text) {
         SendServerMessage sendServerMessage = new SendServerMessage();
         sendServerMessage.setMessage(text);
         sendServerMessageList.add(sendServerMessage);
-        return webSocketMessageChannel;
+        return this;
     }
 
     @Override
@@ -97,7 +145,7 @@ public class WebSocketMessageChannel implements MessageChannel {
         atMessage.setType(AtConstant.AT);
         sendServerMessage.setAtMessage(atMessage);
         sendServerMessageList.add(sendServerMessage);
-        return webSocketMessageChannel;
+        return this;
     }
 
     @Override
@@ -107,7 +155,7 @@ public class WebSocketMessageChannel implements MessageChannel {
         atMessage.setType(AtConstant.AT_ALL);
         sendServerMessage.setAtMessage(atMessage);
         sendServerMessageList.add(sendServerMessage);
-        return webSocketMessageChannel;
+        return this;
     }
 
     @Override
@@ -120,7 +168,8 @@ public class WebSocketMessageChannel implements MessageChannel {
             faceMessageList.add(faceMessage);
         }
         sendServerMessage.setFaceMessageList(faceMessageList);
-        return webSocketMessageChannel;
+        sendServerMessageList.add(sendServerMessage);
+        return this;
     }
 
 
@@ -132,57 +181,63 @@ public class WebSocketMessageChannel implements MessageChannel {
         faceMessage.setId(faceId);
         faceMessageList.add(faceMessage);
         sendServerMessage.setFaceMessageList(faceMessageList);
-        return webSocketMessageChannel;
+        sendServerMessageList.add(sendServerMessage);
+        return this;
     }
 
     @Override
-    public WebSocketMessageChannel addPokeMessage() {
-        return webSocketMessageChannel;
+    public WebSocketMessageChannel addPokeMessage(PokeMessage pokeMessage) {
+        SendServerMessage sendServerMessage = new SendServerMessage();
+        sendServerMessage.setPokeMessage(pokeMessage);
+        sendServerMessageList.add(sendServerMessage);
+        return this;
     }
 
     @Override
     public WebSocketMessageChannel addVipFace() {
-        return webSocketMessageChannel;
+        return this;
     }
 
     @Override
     public WebSocketMessageChannel addLightApp() {
-        return webSocketMessageChannel;
+        return this;
     }
 
     @Override
     public WebSocketMessageChannel addSimpleServiceMessage() {
-        return webSocketMessageChannel;
+        return this;
     }
 
     @Override
     public WebSocketMessageChannel addDice() {
-        return webSocketMessageChannel;
+        return this;
     }
 
     @Override
     public WebSocketMessageChannel addMusicShare() {
-        return webSocketMessageChannel;
+        return this;
     }
 
     @Override
     public WebSocketMessageChannel addAudio() {
-        return webSocketMessageChannel;
+        return this;
     }
 
     @Override
     public WebSocketMessageChannel addForwardMessage() {
-        return webSocketMessageChannel;
+        return this;
     }
 
     @Override
     public WebSocketMessageChannel addMarketFace() {
-        return webSocketMessageChannel;
+        return this;
     }
 
     @Override
     public void send() {
-        SendServerMessageUtil.sendServer(channel,sendServerMessageDTO);
-        sendServerMessageDTO=null;
+        if (sendServerMessageDTO != null && sendServerMessageDTO.getComond() != null) {
+            SendServerMessageUtil.sendServer(channel, sendServerMessageDTO);
+        }
+        sendServerMessageDTO = new SendServerMessageDTO();
     }
 }

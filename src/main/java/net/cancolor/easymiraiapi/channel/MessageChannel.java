@@ -1,6 +1,8 @@
 package net.cancolor.easymiraiapi.channel;
 
 
+import net.cancolor.easymiraiapi.model.message.PokeMessage;
+
 import java.util.List;
 
 /**
@@ -11,13 +13,38 @@ import java.util.List;
  * @date 2021/12/13 21:36
  */
 public interface MessageChannel {
+    /**
+     * 戳一戳
+     * 只能单独使用不能和别的信息一起用
+     */
+    MessageChannel nudge() throws Exception;
+
+
+    /**
+     * 群专用
+     * 禁言
+     */
+    MessageChannel mute(Integer minute) throws Exception;
+
+    /**
+     * 解除禁言
+     * 群专用
+     */
+    MessageChannel unmute() throws Exception;
+
+    /**
+     * 群专用
+     * 踢人
+     */
+    MessageChannel kick(String message, Boolean block) throws Exception;
+
 
     /*
      * @author SoarDao
      * @date 2021-12-10
      * @description: 纯文本
      */
-    public MessageChannel addPlainText(String text);
+    MessageChannel addPlainText(String text);
 
 
 
@@ -26,94 +53,96 @@ public interface MessageChannel {
      * @date 2021-12-10
      * @description: 提及某人
      */
-    public MessageChannel addAt();
+    MessageChannel addAt();
 
     /*
      * @author SoarDao
      * @date 2021-12-10
      * @description: 提及全体成员
      */
-    public MessageChannel addAtAll();
+    MessageChannel addAtAll();
 
     /*
      * @author SoarDao
      * @date 2021-12-10
      * @description: 原生表情
      */
-    public MessageChannel addFace(Integer faceId);
+    MessageChannel addFace(Integer faceId);
 
     /*
      * @author SoarDao
      * @date 2021-12-10
      * @description: 原生表情
      */
-    public MessageChannel addFaceList(List<Integer> faceIdList);
+    MessageChannel addFaceList(List<Integer> faceIdList);
+
     /*
      * @author SoarDao
      * @date 2021-12-10
      * @description: 戳一戳消息（消息非动作）
      */
-    public MessageChannel addPokeMessage();
+    MessageChannel addPokeMessage(PokeMessage pokeMessage);
+
 
     /*
      * @author SoarDao
      * @date 2021-12-10
      * @description: VIP 表情
      */
-    public MessageChannel addVipFace();
+    MessageChannel addVipFace();
 
     /*
      * @author SoarDao
      * @date 2021-12-10
      * @description: 小程序
      */
-    public MessageChannel addLightApp();
+    MessageChannel addLightApp();
 
     /*
      * @author SoarDao
      * @date 2021-12-10
      * @description: （不稳定）服务消息
      */
-    public MessageChannel addSimpleServiceMessage();
+    MessageChannel addSimpleServiceMessage();
 
     /*
      * @author SoarDao
      * @date 2021-12-10
      * @description: 魔法表情骰子
      */
-    public MessageChannel addDice();
+    MessageChannel addDice();
 
     /*
      * @author SoarDao
      * @date 2021-12-10
      * @description: 音乐分享
      */
-    public MessageChannel addMusicShare();
+    MessageChannel addMusicShare();
 
     /*
      * @author SoarDao
      * @date 2021-12-10
      * @description: 语音
      */
-    public MessageChannel addAudio();
+    MessageChannel addAudio();
 
     /*
      * @author SoarDao
      * @date 2021-12-10
      * @description: 合并转发
      */
-    public MessageChannel addForwardMessage();
+    MessageChannel addForwardMessage();
 
     /*
      * @author SoarDao
      * @date 2021-12-10
      * @description: 商城表情
      */
-    public MessageChannel addMarketFace();
+    MessageChannel addMarketFace();
 
     /**
      * 发送消息
      */
-    public void send();
+    void send();
 
 }
