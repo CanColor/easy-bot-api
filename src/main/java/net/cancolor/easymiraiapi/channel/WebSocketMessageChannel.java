@@ -4,13 +4,12 @@ import io.netty.channel.Channel;
 import net.cancolor.easymiraiapi.constent.AtConstant;
 import net.cancolor.easymiraiapi.constent.ContactsConstant;
 import net.cancolor.easymiraiapi.constent.MessageConstant;
-import net.cancolor.easymiraiapi.model.message.AtMessage;
-import net.cancolor.easymiraiapi.model.message.ContactsMessage;
-import net.cancolor.easymiraiapi.model.message.FaceMessage;
-import net.cancolor.easymiraiapi.model.message.PokeMessage;
+import net.cancolor.easymiraiapi.model.message.*;
 import net.cancolor.easymiraiapi.model.message.client.send.SendServerMessage;
+import net.cancolor.easymiraiapi.model.message.dto.SendServerImageMessageDTO;
 import net.cancolor.easymiraiapi.model.message.dto.SendServerMessageDTO;
 import net.cancolor.easymiraiapi.utils.SendServerMessageUtil;
+import net.mamoe.mirai.message.data.VipFace;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +29,6 @@ public class WebSocketMessageChannel implements MessageChannel {
     private List<SendServerMessage> sendServerMessageList = new ArrayList<>();
 
     private SendServerMessageDTO sendServerMessageDTO = new SendServerMessageDTO();
-
-
-
-
 
 
     /**
@@ -194,7 +189,13 @@ public class WebSocketMessageChannel implements MessageChannel {
     }
 
     @Override
-    public WebSocketMessageChannel addVipFace() {
+    public WebSocketMessageChannel addVipFace(VipFace.Kind vipFaceConstant) {
+        SendServerMessage sendServerMessage = new SendServerMessage();
+        VipFaceMessage vipFaceMessage = new VipFaceMessage();
+        vipFaceMessage.setKind(vipFaceConstant);
+        sendServerMessage.setVipFaceMessage(vipFaceMessage);
+        sendServerMessageList.add(sendServerMessage);
+        sendServerMessageDTO.setSendServerMessageList(sendServerMessageList);
         return this;
     }
 
@@ -239,5 +240,65 @@ public class WebSocketMessageChannel implements MessageChannel {
             SendServerMessageUtil.sendServer(channel, sendServerMessageDTO);
         }
         sendServerMessageDTO = new SendServerMessageDTO();
+    }
+
+    @Override
+    public WebSocketMessageChannel addImageByUrl(String url) {
+        SendServerImageMessageDTO imageMessage = new SendServerImageMessageDTO();
+        imageMessage.setOriginUrl(url);
+        addImage(false, imageMessage);
+        return this;
+    }
+
+    @Override
+    public MessageChannel addImageByImageId(String imageId) {
+        SendServerImageMessageDTO imageMessage = new SendServerImageMessageDTO();
+        imageMessage.setImageId(imageId);
+        addImage(false, imageMessage);
+        return this;
+    }
+
+    @Override
+    public MessageChannel addImageByImageByFilePath(String filePath) {
+        SendServerImageMessageDTO imageMessage = new SendServerImageMessageDTO();
+        imageMessage.setPath(filePath);
+        addImage(false, imageMessage);
+        return this;
+    }
+
+    @Override
+    public MessageChannel addFlashImageByUrl(String url) {
+        SendServerImageMessageDTO imageMessage = new SendServerImageMessageDTO();
+        imageMessage.setOriginUrl(url);
+        addImage(true, imageMessage);
+        return this;
+    }
+
+    @Override
+    public MessageChannel addFlashImageByImageId(String imageId) {
+        SendServerImageMessageDTO imageMessage = new SendServerImageMessageDTO();
+        imageMessage.setImageId(imageId);
+        addImage(true, imageMessage);
+        return this;
+    }
+
+    @Override
+    public MessageChannel addFlashImageByImageByFilePath(String filePath) {
+        SendServerImageMessageDTO imageMessage = new SendServerImageMessageDTO();
+        imageMessage.setPath(filePath);
+        addImage(true, imageMessage);
+        return this;
+    }
+
+
+    public void addImage(Boolean isFlash, SendServerImageMessageDTO imageMessage) {
+        SendServerMessage sendServerMessage = new SendServerMessage();
+        if (isFlash) {
+            sendServerMessage.setFlashImageMessage(imageMessage);
+        } else {
+            sendServerMessage.setImageMessage(imageMessage);
+        }
+        sendServerMessageList.add(sendServerMessage);
+        sendServerMessageDTO.setSendServerMessageList(sendServerMessageList);
     }
 }

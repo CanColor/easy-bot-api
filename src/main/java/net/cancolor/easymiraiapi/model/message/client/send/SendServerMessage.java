@@ -29,7 +29,9 @@ public class SendServerMessage implements Serializable {
     //戳一戳/pc震动
     private PokeMessage pokeMessage;
     //图片
-    private List<SendServerImageMessageDTO> sendImageMessageList;
+    private SendServerImageMessageDTO imageMessage;
+    //闪照
+    private SendServerImageMessageDTO FlashImageMessage;
     //表情
     private List<FaceMessage> faceMessageList;
     //文件

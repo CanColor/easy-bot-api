@@ -1,7 +1,5 @@
 package net.cancolor.easymiraiapi.channel;
 
-import net.cancolor.easymiraiapi.model.message.dto.SendServerMessageDTO;
-
 /**
  * @author SoarDao
  * @title: addServerImageService
@@ -17,7 +15,7 @@ public interface ImageMessageChannel {
      * @param url 网络图片
      * @description: 自定义图片
      */
-    public SendServerMessageDTO addImageByUrl(String url);
+    MessageChannel addImageByUrl(String url);
 
     /*
      * @author SoarDao
@@ -25,7 +23,7 @@ public interface ImageMessageChannel {
      * @date 2021-12-10
      * @description: 自定义图片
      */
-    public SendServerMessageDTO addImageByImageId(String imageId);
+    MessageChannel addImageByImageId(String imageId);
 
 
     /*
@@ -34,14 +32,33 @@ public interface ImageMessageChannel {
      * @date 2021-12-10
      * @description: 自定义图片
      */
-    public SendServerMessageDTO addImageByImageByFilePath(String filePath);
+    MessageChannel addImageByImageByFilePath(String filePath);
+
 
     /*
      * @author SoarDao
      * @date 2021-12-10
-     * @description: 闪照
+     * @param url 网络图片
+     * @description: 自定义图片
      */
-    public SendServerMessageDTO addFlashImage();
+    MessageChannel addFlashImageByUrl(String url);
+
+    /*
+     * @author SoarDao
+     * @param imageId 腾讯上传图片后的id
+     * @date 2021-12-10
+     * @description: 自定义图片
+     */
+    MessageChannel addFlashImageByImageId(String imageId);
+
+
+    /*
+     * @author SoarDao
+     * @param imageId 本地图片路径
+     * @date 2021-12-10
+     * @description: 自定义图片
+     */
+    MessageChannel addFlashImageByImageByFilePath(String filePath);
 
 
 }

@@ -2,6 +2,7 @@ package net.cancolor.easymiraiapi.model.message;
 
 import lombok.Data;
 import lombok.ToString;
+import net.mamoe.mirai.message.data.VipFace;
 
 import java.io.Serializable;
 
@@ -20,7 +21,7 @@ public class VipFaceMessage implements Serializable {
 
     private Integer count;
 
-    private Integer id;
+    private VipFace.Kind kind;
 
-    private String name;
+
 }

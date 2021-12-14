@@ -2,6 +2,7 @@ package net.cancolor.easymiraiapi.channel;
 
 
 import net.cancolor.easymiraiapi.model.message.PokeMessage;
+import net.mamoe.mirai.message.data.VipFace;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * @description: 发送消息接口
  * @date 2021/12/13 21:36
  */
-public interface MessageChannel {
+public interface MessageChannel extends ImageMessageChannel {
     /**
      * 戳一戳
      * 只能单独使用不能和别的信息一起用
@@ -89,7 +90,7 @@ public interface MessageChannel {
      * @date 2021-12-10
      * @description: VIP 表情
      */
-    MessageChannel addVipFace();
+    MessageChannel addVipFace(VipFace.Kind vipFaceConstant);
 
     /*
      * @author SoarDao
@@ -125,6 +126,7 @@ public interface MessageChannel {
      * @description: 语音
      */
     MessageChannel addAudio();
+
 
     /*
      * @author SoarDao
