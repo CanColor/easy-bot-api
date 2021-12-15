@@ -242,7 +242,7 @@ public class WebSocketMessageChannel implements MessageChannel {
         sendServerMessage.setUrlMessage(urlMessage);
         sendServerMessageList.add(sendServerMessage);
         sendServerMessageDTO.setSendServerMessageList(sendServerMessageList);
-        return null;
+        return this;
     }
 
     @Override

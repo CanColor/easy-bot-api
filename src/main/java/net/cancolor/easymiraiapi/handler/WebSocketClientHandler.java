@@ -38,10 +38,12 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
         } else {
             //接收服务端的消息
             WebSocketFrame frame = (WebSocketFrame) msg;
-            //文本信息
+            //文本信息 ws
             if (frame instanceof TextWebSocketFrame) {
                 TextWebSocketFrame textFrame = (TextWebSocketFrame) frame;
-                logger.info("接收服务端消息{}:", textFrame.text());
+                logger.info("接收服务端消息:{}", textFrame.text());
+
+
             }
             //二进制信息
             if (frame instanceof BinaryWebSocketFrame) {
