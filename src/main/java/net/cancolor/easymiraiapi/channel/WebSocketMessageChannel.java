@@ -291,7 +291,7 @@ public class WebSocketMessageChannel implements MessageChannel {
     }
 
 
-    public void addImage(Boolean isFlash, SendServerImageMessageDTO imageMessage) {
+    private void addImage(Boolean isFlash, SendServerImageMessageDTO imageMessage) {
         SendServerMessage sendServerMessage = new SendServerMessage();
         if (isFlash) {
             sendServerMessage.setFlashImageMessage(imageMessage);

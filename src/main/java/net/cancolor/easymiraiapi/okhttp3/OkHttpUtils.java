@@ -196,7 +196,7 @@ public class OkHttpUtils {
         try {
             Response response = okHttpClient.newCall(request.build()).execute();
             if(response.code()==200){
-                response.body().byteStream();
+                return response.body().byteStream();
             }
             return null;
         } catch (IOException e) {
@@ -209,7 +209,7 @@ public class OkHttpUtils {
      * 异步请求，有返回值
      */
     public String async() {
-        StringBuilder buffer = new StringBuilder("");
+        StringBuilder buffer = new StringBuilder();
         setHeader(request);
         okHttpClient.newCall(request.build()).enqueue(new Callback() {
             @Override
