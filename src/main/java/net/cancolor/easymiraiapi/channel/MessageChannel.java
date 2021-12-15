@@ -1,6 +1,7 @@
 package net.cancolor.easymiraiapi.channel;
 
 
+import net.cancolor.easymiraiapi.model.message.MusicShareMessage;
 import net.cancolor.easymiraiapi.model.message.PokeMessage;
 import net.mamoe.mirai.message.data.VipFace;
 
@@ -118,7 +119,7 @@ public interface MessageChannel extends ImageMessageChannel {
      * @date 2021-12-10
      * @description: 音乐分享
      */
-    MessageChannel addMusicShare();
+    MessageChannel addMusicShare(MusicShareMessage MusicShare);
 
     /*
      * @author SoarDao

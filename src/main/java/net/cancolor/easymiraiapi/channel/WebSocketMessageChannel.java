@@ -215,7 +215,11 @@ public class WebSocketMessageChannel implements MessageChannel {
     }
 
     @Override
-    public WebSocketMessageChannel addMusicShare() {
+    public WebSocketMessageChannel addMusicShare(MusicShareMessage musicShareMessage) {
+        SendServerMessage sendServerMessage = new SendServerMessage();
+        sendServerMessage.setMusicShare(musicShareMessage);
+        sendServerMessageList.add(sendServerMessage);
+        sendServerMessageDTO.setSendServerMessageList(sendServerMessageList);
         return this;
     }
 

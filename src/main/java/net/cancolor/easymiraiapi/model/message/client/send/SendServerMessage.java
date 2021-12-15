@@ -1,6 +1,7 @@
 package net.cancolor.easymiraiapi.model.message.client.send;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import net.cancolor.easymiraiapi.model.message.*;
 import net.cancolor.easymiraiapi.model.message.dto.SendServerFileMessageDTO;
@@ -17,7 +18,8 @@ import java.util.List;
  * @date 2021/12/11 23:08
  */
 @Data
-@ToString
+@ToString(callSuper = true)
+@EqualsAndHashCode
 //接受客户端消息实体
 public class SendServerMessage implements Serializable {
 
@@ -42,6 +44,8 @@ public class SendServerMessage implements Serializable {
     private VipFaceMessage vipFaceMessage;
     //功能
     private ContactsMessage contactsMessage;
+
+    private MusicShareMessage musicShare;
 
 
 }
