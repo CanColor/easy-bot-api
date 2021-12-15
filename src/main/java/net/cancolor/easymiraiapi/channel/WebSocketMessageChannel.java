@@ -1,11 +1,12 @@
 package net.cancolor.easymiraiapi.channel;
 
 import io.netty.channel.Channel;
-import net.cancolor.easymiraiapi.constent.AtConstant;
-import net.cancolor.easymiraiapi.constent.ContactsConstant;
-import net.cancolor.easymiraiapi.constent.MessageConstant;
+import net.cancolor.easymiraiapi.constant.AtConstant;
+import net.cancolor.easymiraiapi.constant.ContactsConstant;
+import net.cancolor.easymiraiapi.constant.MessageConstant;
 import net.cancolor.easymiraiapi.model.message.*;
 import net.cancolor.easymiraiapi.model.message.client.send.SendServerMessage;
+import net.cancolor.easymiraiapi.model.message.dto.AudioMessageDTO;
 import net.cancolor.easymiraiapi.model.message.dto.SendServerImageMessageDTO;
 import net.cancolor.easymiraiapi.model.message.dto.SendServerMessageDTO;
 import net.cancolor.easymiraiapi.utils.SendServerMessageUtil;
@@ -224,8 +225,24 @@ public class WebSocketMessageChannel implements MessageChannel {
     }
 
     @Override
-    public WebSocketMessageChannel addAudio() {
+    public WebSocketMessageChannel addAudioMessage(String uploadType, String resource) {
+        SendServerMessage sendServerMessage = new SendServerMessage();
+        AudioMessageDTO audioMessageDTO = new AudioMessageDTO();
+        audioMessageDTO.setResource(resource);
+        audioMessageDTO.setUploadType(uploadType);
+        sendServerMessage.setAudioMessage(audioMessageDTO);
+        sendServerMessageList.add(sendServerMessage);
+        sendServerMessageDTO.setSendServerMessageList(sendServerMessageList);
         return this;
+    }
+
+    @Override
+    public MessageChannel addUrlMessage(UrlMessage urlMessage) {
+        SendServerMessage sendServerMessage = new SendServerMessage();
+        sendServerMessage.setUrlMessage(urlMessage);
+        sendServerMessageList.add(sendServerMessage);
+        sendServerMessageDTO.setSendServerMessageList(sendServerMessageList);
+        return null;
     }
 
     @Override

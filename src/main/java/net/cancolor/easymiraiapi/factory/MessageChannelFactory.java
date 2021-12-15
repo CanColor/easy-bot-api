@@ -2,7 +2,7 @@ package net.cancolor.easymiraiapi.factory;
 
 import net.cancolor.easymiraiapi.channel.MessageChannel;
 import net.cancolor.easymiraiapi.channel.WebSocketMessageChannel;
-import net.cancolor.easymiraiapi.constent.ChannelConstant;
+import net.cancolor.easymiraiapi.constant.ChannelConstant;
 
 /**
  * @author SoarDao

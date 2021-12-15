@@ -1,4 +1,4 @@
-package net.cancolor.easymiraiapi.constent;
+package net.cancolor.easymiraiapi.constant;
 
 
 import net.mamoe.mirai.message.data.VipFace;

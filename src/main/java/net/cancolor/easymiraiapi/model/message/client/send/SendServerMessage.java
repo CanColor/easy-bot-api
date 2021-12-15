@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import net.cancolor.easymiraiapi.model.message.*;
+import net.cancolor.easymiraiapi.model.message.dto.AudioMessageDTO;
 import net.cancolor.easymiraiapi.model.message.dto.SendServerFileMessageDTO;
 import net.cancolor.easymiraiapi.model.message.dto.SendServerImageMessageDTO;
 
@@ -46,6 +47,8 @@ public class SendServerMessage implements Serializable {
     private ContactsMessage contactsMessage;
 
     private MusicShareMessage musicShare;
+    private AudioMessageDTO audioMessage;
+    private UrlMessage urlMessage;
 
 
 }

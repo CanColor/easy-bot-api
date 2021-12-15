@@ -1,4 +1,4 @@
-package net.cancolor.easymiraiapi.constent;
+package net.cancolor.easymiraiapi.constant;
 
 
 public class ContactsConstant {

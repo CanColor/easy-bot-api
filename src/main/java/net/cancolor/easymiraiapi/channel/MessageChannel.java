@@ -3,6 +3,7 @@ package net.cancolor.easymiraiapi.channel;
 
 import net.cancolor.easymiraiapi.model.message.MusicShareMessage;
 import net.cancolor.easymiraiapi.model.message.PokeMessage;
+import net.cancolor.easymiraiapi.model.message.UrlMessage;
 import net.mamoe.mirai.message.data.VipFace;
 
 import java.util.List;
@@ -93,26 +94,6 @@ public interface MessageChannel extends ImageMessageChannel {
      */
     MessageChannel addVipFace(VipFace.Kind vipFaceConstant);
 
-    /*
-     * @author SoarDao
-     * @date 2021-12-10
-     * @description: 小程序
-     */
-    MessageChannel addLightApp();
-
-    /*
-     * @author SoarDao
-     * @date 2021-12-10
-     * @description: （不稳定）服务消息
-     */
-    MessageChannel addSimpleServiceMessage();
-
-    /*
-     * @author SoarDao
-     * @date 2021-12-10
-     * @description: 魔法表情骰子
-     */
-    MessageChannel addDice();
 
     /*
      * @author SoarDao
@@ -126,8 +107,11 @@ public interface MessageChannel extends ImageMessageChannel {
      * @date 2021-12-10
      * @description: 语音
      */
-    MessageChannel addAudio();
+    MessageChannel addAudioMessage(String orginType, String uploadType);
 
+
+    //链接分享
+    MessageChannel addUrlMessage(UrlMessage urlMessage);
 
     /*
      * @author SoarDao
@@ -142,6 +126,28 @@ public interface MessageChannel extends ImageMessageChannel {
      * @description: 商城表情
      */
     MessageChannel addMarketFace();
+
+    /*
+     * @author SoarDao
+     * @date 2021-12-10
+     * @description: 小程序
+     */
+    MessageChannel addLightApp();
+
+    /*
+     * @author SoarDao
+     * @date 2021-12-10
+     * @description: 魔法表情骰子
+     */
+    MessageChannel addDice();
+
+    /*
+     * @author SoarDao
+     * @date 2021-12-10
+     * @description: （不稳定）服务消息
+     */
+    MessageChannel addSimpleServiceMessage();
+
 
     /**
      * 发送消息

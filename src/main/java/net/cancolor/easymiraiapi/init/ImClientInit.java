@@ -16,7 +16,7 @@ import io.netty.handler.codec.http.websocketx.WebSocketVersion;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import net.cancolor.easymiraiapi.config.ServerConfig;
-import net.cancolor.easymiraiapi.constent.MessageConstant;
+import net.cancolor.easymiraiapi.constant.MessageConstant;
 import net.cancolor.easymiraiapi.handler.WebSocketClientHandler;
 import net.cancolor.easymiraiapi.model.message.dto.SendServerMessageDTO;
 import net.cancolor.easymiraiapi.utils.SendServerMessageUtil;
@@ -66,6 +66,7 @@ public class ImClientInit {
                 .handler(new LoggingHandler(LogLevel.INFO))
                 .channel(NioSocketChannel.class)
                 .handler(new ChannelInitializer<SocketChannel>() {
+                    @Override
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
                         ChannelPipeline pipeline = socketChannel.pipeline();
                         pipeline.addLast("http-codec", new HttpClientCodec());
@@ -82,7 +83,7 @@ public class ImClientInit {
         }
         HttpHeaders httpHeaders = new DefaultHttpHeaders();
         //进行握手
-        WebSocketClientHandshaker handshaker = WebSocketClientHandshakerFactory.newHandshaker(websocketURI, WebSocketVersion.V13, (String) null, true, httpHeaders);
+        WebSocketClientHandshaker handshaker = WebSocketClientHandshakerFactory.newHandshaker(websocketURI, WebSocketVersion.V13, null, true, httpHeaders);
         //客户端与服务端连接的通道，final修饰表示只会有一个
         try {
             this.channel = boot.connect(websocketURI.getHost(), websocketURI.getPort()).sync().channel();

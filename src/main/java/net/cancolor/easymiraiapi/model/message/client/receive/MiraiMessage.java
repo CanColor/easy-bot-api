@@ -1,11 +1,10 @@
 package net.cancolor.easymiraiapi.model.message.client.receive;
 
-import net.cancolor.easymiraiapi.model.message.role.Group;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-
+import net.cancolor.easymiraiapi.model.message.role.Group;
 
 import java.io.Serializable;
 
@@ -29,7 +28,7 @@ public class MiraiMessage extends ClientMessage implements Serializable {
     private Group group;
     //消息主题
     private String miraiCode;
-
+    //发送者等级
     private int level;
 
 
