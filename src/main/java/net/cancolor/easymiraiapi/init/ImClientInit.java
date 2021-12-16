@@ -77,7 +77,7 @@ public class ImClientInit {
         //websocke连接的地址，/hello是因为在服务端的websockethandler设置的
         URI websocketURI = null;
         try {
-            websocketURI = new URI("ws://" + serverConfig.getIp() + ":" + serverConfig.getPort() + "/hello");
+            websocketURI = new URI("ws://" + serverConfig.getIp() + ":" + serverConfig.getPort() + "/bot");
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
