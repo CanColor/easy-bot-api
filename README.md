@@ -1,2 +1,2 @@
-# easy-bot-api
-easy-bot-api
+# easy-qb-api
+easy-qb-api
