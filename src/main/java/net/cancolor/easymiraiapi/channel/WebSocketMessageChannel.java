@@ -5,9 +5,7 @@ import net.cancolor.easymiraiapi.constant.AtConstant;
 import net.cancolor.easymiraiapi.constant.ContactsConstant;
 import net.cancolor.easymiraiapi.constant.MessageConstant;
 import net.cancolor.easymiraiapi.model.message.*;
-import net.cancolor.easymiraiapi.model.message.client.send.SendServerMessage;
 import net.cancolor.easymiraiapi.model.message.dto.AudioMessageDTO;
-import net.cancolor.easymiraiapi.model.message.dto.SendServerImageMessageDTO;
 import net.cancolor.easymiraiapi.model.message.dto.SendServerMessageDTO;
 import net.cancolor.easymiraiapi.utils.SendServerMessageUtil;
 import net.mamoe.mirai.message.data.VipFace;
@@ -27,8 +25,7 @@ public class WebSocketMessageChannel implements MessageChannel {
 
     private Channel channel;
 
-    private List<SendServerMessage> sendServerMessageList = new ArrayList<>();
-
+    private List<Message> messageList = new ArrayList<>();
     private SendServerMessageDTO sendServerMessageDTO = new SendServerMessageDTO();
 
 
@@ -69,13 +66,13 @@ public class WebSocketMessageChannel implements MessageChannel {
 
 
     private WebSocketMessageChannel init(Channel channel, List<Long> botIdList, Long groupId, Long friendId) {
-        sendServerMessageList = new ArrayList<>();
+        messageList = new ArrayList<>();
         this.channel = channel;
         sendServerMessageDTO.setGroupId(groupId)
                 .setFriendId(friendId)
                 .setBotIdList(botIdList)
                 .setComond(MessageConstant.CHAT)
-                .setSendServerMessageList(sendServerMessageList);
+                .setMessageList(messageList);
         return this;
     }
 
@@ -109,94 +106,95 @@ public class WebSocketMessageChannel implements MessageChannel {
         if (sendServerMessageDTO.getGroupId() == null && !contactsConstant.equals(ContactsConstant.NUDGE)) {
             throw new Exception("群专用功能,必须填入群号！");
         }
-        if (sendServerMessageList != null && sendServerMessageList.size() > 0) {
+        if (messageList != null && messageList.size() > 0) {
             send();
         }
-        SendServerMessage sendServerMessage = new SendServerMessage();
+        Message message = new Message();
         ContactsMessage contactsMessage = new ContactsMessage();
-        contactsMessage.setAction(contactsConstant);
+        contactsMessage.setAction(ContactsConstant.NUDGE);
         if (contactsConstant.equals(ContactsConstant.MEMBER_MUTE)) {
             contactsMessage.setMinute(minute);
+            contactsMessage.setAction(ContactsConstant.MEMBER_MUTE);
         } else if (contactsConstant.equals(ContactsConstant.MEMBER_KICK)) {
             contactsMessage.setKillMessage(killMessage);
+            contactsMessage.setAction(ContactsConstant.MEMBER_KICK);
             contactsMessage.setBlock(block);
         }
-        sendServerMessage.setContactsMessage(contactsMessage);
-        sendServerMessageList.add(sendServerMessage);
+        message.setContactsMessage(contactsMessage);
+        messageList.add(message);
         send();
     }
 
     @Override
     public WebSocketMessageChannel addPlainText(String text) {
-        SendServerMessage sendServerMessage = new SendServerMessage();
-        sendServerMessage.setMessage(text);
-        sendServerMessageList.add(sendServerMessage);
+        Message message = new Message();
+        message.setMessage(text);
+        messageList.add(message);
         return this;
     }
 
     @Override
     public WebSocketMessageChannel addAt() {
-        SendServerMessage sendServerMessage = new SendServerMessage();
+        Message message = new Message();
         AtMessage atMessage = new AtMessage();
         atMessage.setType(AtConstant.AT);
-        sendServerMessage.setAtMessage(atMessage);
-        sendServerMessageList.add(sendServerMessage);
+        message.setAtMessage(atMessage);
+        messageList.add(message);
         return this;
     }
 
     @Override
     public WebSocketMessageChannel addAtAll() {
-        SendServerMessage sendServerMessage = new SendServerMessage();
+        Message message = new Message();
         AtMessage atMessage = new AtMessage();
         atMessage.setType(AtConstant.AT_ALL);
-        sendServerMessage.setAtMessage(atMessage);
-        sendServerMessageList.add(sendServerMessage);
+        message.setAtMessage(atMessage);
+        messageList.add(message);
         return this;
     }
 
     @Override
     public WebSocketMessageChannel addFaceList(List<Integer> faceIdList) {
-        SendServerMessage sendServerMessage = new SendServerMessage();
+        Message message = new Message();
         List<FaceMessage> faceMessageList = new ArrayList<>();
         for (int i = 0; i < faceIdList.size(); i++) {
             FaceMessage faceMessage = new FaceMessage();
             faceMessage.setId(faceIdList.get(i));
             faceMessageList.add(faceMessage);
         }
-        sendServerMessage.setFaceMessageList(faceMessageList);
-        sendServerMessageList.add(sendServerMessage);
+        message.setFaceMessageList(faceMessageList);
+        message.setFaceMessageList(faceMessageList);
         return this;
     }
 
 
     @Override
     public WebSocketMessageChannel addFace(Integer faceId) {
-        SendServerMessage sendServerMessage = new SendServerMessage();
+        Message message = new Message();
         List<FaceMessage> faceMessageList = new ArrayList<>();
         FaceMessage faceMessage = new FaceMessage();
         faceMessage.setId(faceId);
         faceMessageList.add(faceMessage);
-        sendServerMessage.setFaceMessageList(faceMessageList);
-        sendServerMessageList.add(sendServerMessage);
+        message.setFaceMessageList(faceMessageList);
         return this;
     }
 
     @Override
     public WebSocketMessageChannel addPokeMessage(PokeMessage pokeMessage) {
-        SendServerMessage sendServerMessage = new SendServerMessage();
-        sendServerMessage.setPokeMessage(pokeMessage);
-        sendServerMessageList.add(sendServerMessage);
+        Message message = new Message();
+        message.setPokeMessage(pokeMessage);
+        messageList.add(message);
         return this;
     }
 
     @Override
     public WebSocketMessageChannel addVipFace(VipFace.Kind vipFaceConstant) {
-        SendServerMessage sendServerMessage = new SendServerMessage();
+        Message message = new Message();
         VipFaceMessage vipFaceMessage = new VipFaceMessage();
         vipFaceMessage.setKind(vipFaceConstant);
-        sendServerMessage.setVipFaceMessage(vipFaceMessage);
-        sendServerMessageList.add(sendServerMessage);
-        sendServerMessageDTO.setSendServerMessageList(sendServerMessageList);
+        message.setVipFaceMessage(vipFaceMessage);
+        messageList.add(message);
+        sendServerMessageDTO.setMessageList(messageList);
         return this;
     }
 
@@ -217,31 +215,31 @@ public class WebSocketMessageChannel implements MessageChannel {
 
     @Override
     public WebSocketMessageChannel addMusicShare(MusicShareMessage musicShareMessage) {
-        SendServerMessage sendServerMessage = new SendServerMessage();
-        sendServerMessage.setMusicShare(musicShareMessage);
-        sendServerMessageList.add(sendServerMessage);
-        sendServerMessageDTO.setSendServerMessageList(sendServerMessageList);
+        Message message = new Message();
+        message.setMusicShare(musicShareMessage);
+        messageList.add(message);
+        sendServerMessageDTO.setMessageList(messageList);
         return this;
     }
 
     @Override
     public WebSocketMessageChannel addAudioMessage(String uploadType, String resource) {
-        SendServerMessage sendServerMessage = new SendServerMessage();
+        Message message = new Message();
         AudioMessageDTO audioMessageDTO = new AudioMessageDTO();
         audioMessageDTO.setResource(resource);
         audioMessageDTO.setUploadType(uploadType);
-        sendServerMessage.setAudioMessage(audioMessageDTO);
-        sendServerMessageList.add(sendServerMessage);
-        sendServerMessageDTO.setSendServerMessageList(sendServerMessageList);
+        message.setAudioMessage(audioMessageDTO);
+        messageList.add(message);
+        sendServerMessageDTO.setMessageList(messageList);
         return this;
     }
 
     @Override
     public MessageChannel addUrlMessage(UrlMessage urlMessage) {
-        SendServerMessage sendServerMessage = new SendServerMessage();
-        sendServerMessage.setUrlMessage(urlMessage);
-        sendServerMessageList.add(sendServerMessage);
-        sendServerMessageDTO.setSendServerMessageList(sendServerMessageList);
+        Message message = new Message();
+        message.setUrlMessage(urlMessage);
+        messageList.add(message);
+        sendServerMessageDTO.setMessageList(messageList);
         return this;
     }
 
@@ -265,7 +263,7 @@ public class WebSocketMessageChannel implements MessageChannel {
 
     @Override
     public WebSocketMessageChannel addImageByUrl(String url) {
-        SendServerImageMessageDTO imageMessage = new SendServerImageMessageDTO();
+        ImageMessage imageMessage = new ImageMessage();
         imageMessage.setOriginUrl(url);
         addImage(false, imageMessage);
         return this;
@@ -273,7 +271,7 @@ public class WebSocketMessageChannel implements MessageChannel {
 
     @Override
     public MessageChannel addImageByImageId(String imageId) {
-        SendServerImageMessageDTO imageMessage = new SendServerImageMessageDTO();
+        ImageMessage imageMessage = new ImageMessage();
         imageMessage.setImageId(imageId);
         addImage(false, imageMessage);
         return this;
@@ -281,15 +279,15 @@ public class WebSocketMessageChannel implements MessageChannel {
 
     @Override
     public MessageChannel addImageByImageByFilePath(String filePath) {
-        SendServerImageMessageDTO imageMessage = new SendServerImageMessageDTO();
-        imageMessage.setPath(filePath);
+        ImageMessage imageMessage = new ImageMessage();
+        imageMessage.setFilePath(filePath);
         addImage(false, imageMessage);
         return this;
     }
 
     @Override
     public MessageChannel addFlashImageByUrl(String url) {
-        SendServerImageMessageDTO imageMessage = new SendServerImageMessageDTO();
+        ImageMessage imageMessage = new ImageMessage();
         imageMessage.setOriginUrl(url);
         addImage(true, imageMessage);
         return this;
@@ -297,7 +295,7 @@ public class WebSocketMessageChannel implements MessageChannel {
 
     @Override
     public MessageChannel addFlashImageByImageId(String imageId) {
-        SendServerImageMessageDTO imageMessage = new SendServerImageMessageDTO();
+        ImageMessage imageMessage = new ImageMessage();
         imageMessage.setImageId(imageId);
         addImage(true, imageMessage);
         return this;
@@ -305,21 +303,21 @@ public class WebSocketMessageChannel implements MessageChannel {
 
     @Override
     public MessageChannel addFlashImageByImageByFilePath(String filePath) {
-        SendServerImageMessageDTO imageMessage = new SendServerImageMessageDTO();
-        imageMessage.setPath(filePath);
+        ImageMessage imageMessage = new ImageMessage();
+        imageMessage.setFilePath(filePath);
         addImage(true, imageMessage);
         return this;
     }
 
 
-    private void addImage(Boolean isFlash, SendServerImageMessageDTO imageMessage) {
-        SendServerMessage sendServerMessage = new SendServerMessage();
+    private void addImage(Boolean isFlash, ImageMessage imageMessage) {
+        Message message = new Message();
         if (isFlash) {
-            sendServerMessage.setFlashImageMessage(imageMessage);
+            message.setFlashImageMessage(imageMessage);
         } else {
-            sendServerMessage.setImageMessage(imageMessage);
+            message.setImageMessage(imageMessage);
         }
-        sendServerMessageList.add(sendServerMessage);
-        sendServerMessageDTO.setSendServerMessageList(sendServerMessageList);
+        messageList.add(message);
+        sendServerMessageDTO.setMessageList(messageList);
     }
 }

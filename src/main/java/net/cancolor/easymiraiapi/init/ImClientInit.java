@@ -17,6 +17,7 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import net.cancolor.easymiraiapi.config.ServerConfig;
 import net.cancolor.easymiraiapi.constant.MessageConstant;
+import net.cancolor.easymiraiapi.handler.ParseMessageHandler;
 import net.cancolor.easymiraiapi.handler.WebSocketClientHandler;
 import net.cancolor.easymiraiapi.model.message.dto.SendServerMessageDTO;
 import net.cancolor.easymiraiapi.utils.SendServerMessageUtil;
@@ -32,7 +33,8 @@ import java.net.URISyntaxException;
 public class ImClientInit {
     private Channel channel;
 
-
+    @Autowired
+    ParseMessageHandler parseMessageHandler;
     @Autowired
     ServerConfig serverConfig;
 
@@ -71,7 +73,7 @@ public class ImClientInit {
                         ChannelPipeline pipeline = socketChannel.pipeline();
                         pipeline.addLast("http-codec", new HttpClientCodec());
                         pipeline.addLast("aggregator", new HttpObjectAggregator(1024 * 1024 * 10));
-                        pipeline.addLast("hookedHandler", new WebSocketClientHandler());
+                        pipeline.addLast("hookedHandler", new WebSocketClientHandler(parseMessageHandler));
                     }
                 });
         //websocke连接的地址，/hello是因为在服务端的websockethandler设置的

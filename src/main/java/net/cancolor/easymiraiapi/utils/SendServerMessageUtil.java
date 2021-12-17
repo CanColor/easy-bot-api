@@ -7,7 +7,7 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import net.cancolor.easymiraiapi.constant.MessageConstant;
-import net.cancolor.easymiraiapi.model.message.client.send.SendServerMessage;
+import net.cancolor.easymiraiapi.model.message.Message;
 import net.cancolor.easymiraiapi.model.message.dto.SendServerMessageDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,10 +24,10 @@ public class SendServerMessageUtil {
     }
 
 
-    public static void sendServer(Channel channel, String comond, Integer isUseMiraiCode, List<SendServerMessage> message) {
+    public static void sendServer(Channel channel, String comond, Integer isUseMiraiCode, List<Message> message) {
         //mirai消息
         SendServerMessageDTO sendServerMessageDTO = new SendServerMessageDTO();
-        sendServerMessageDTO.setSendServerMessageList(message);
+        sendServerMessageDTO.setMessageList(message);
         sendServerMessageDTO.setComond(comond);
         sendServerMessageDTO.setIsUseMiraiCode(isUseMiraiCode);
         send(channel, sendServerMessageDTO);

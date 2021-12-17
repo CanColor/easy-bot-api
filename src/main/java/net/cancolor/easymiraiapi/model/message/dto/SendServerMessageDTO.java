@@ -3,7 +3,7 @@ package net.cancolor.easymiraiapi.model.message.dto;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import net.cancolor.easymiraiapi.model.message.client.send.SendServerMessage;
+import net.cancolor.easymiraiapi.model.message.Message;
 
 import java.io.Serializable;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author SoarDao
  * @title: SendServerMessageDTO
- * @projectName easy-mirai-api
+ * @projectName easy-bot-api
  * @description: TODO
  * @date 2021/12/12 22:10
  */
@@ -41,7 +41,7 @@ public class SendServerMessageDTO implements Serializable {
     //是否使用miraiCode
     private Integer isUseMiraiCode=0;
 
-    private List<SendServerMessage> sendServerMessageList;
+    private List<Message> messageList;
 
 
     private String miraiCode;

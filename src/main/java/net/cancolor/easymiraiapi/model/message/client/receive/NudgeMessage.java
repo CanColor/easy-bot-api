@@ -1,12 +1,9 @@
 package net.cancolor.easymiraiapi.model.message.client.receive;
 
-import net.cancolor.easymiraiapi.model.message.role.Friend;
-import net.cancolor.easymiraiapi.model.message.role.Group;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-
+import net.cancolor.easymiraiapi.model.message.role.Friend;
 
 import java.io.Serializable;
 
@@ -20,8 +17,7 @@ import java.io.Serializable;
 @Data
 @Accessors(chain = true)
 @ToString(callSuper =true)
-@EqualsAndHashCode(callSuper =true)
-public class NudgeMessage extends ClientMessage implements Serializable {
+public class NudgeMessage implements Serializable {
 
 
     private static final long serialVersionUID = -3821891266223470569L;
@@ -33,8 +29,7 @@ public class NudgeMessage extends ClientMessage implements Serializable {
     private String action;
     //后缀
     private String suffix;
-    //群组
-    private Group group;
+
 
 
 }

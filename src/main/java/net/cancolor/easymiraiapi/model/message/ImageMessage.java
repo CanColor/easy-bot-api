@@ -29,6 +29,8 @@ public class ImageMessage implements Serializable {
 
     private String originUrl;
 
+    private String filePath;
+
 
 
 

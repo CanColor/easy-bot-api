@@ -8,12 +8,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> {
+
+    public WebSocketClientHandler(ParseMessageHandler parseMessageHandler) {
+        this.parseMessageHandler = parseMessageHandler;
+    }
+
     //握手的状态信息
     WebSocketClientHandshaker handshaker;
     //netty自带的异步处理
     ChannelPromise handshakeFuture;
     Logger logger = LoggerFactory.getLogger(WebSocketClientHandler.class);
-
+    ParseMessageHandler parseMessageHandler;
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
         logger.info("当前握手的状态" + this.handshaker.isHandshakeComplete());
@@ -41,6 +46,7 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
             //文本信息 ws
             if (frame instanceof TextWebSocketFrame) {
                 TextWebSocketFrame textFrame = (TextWebSocketFrame) frame;
+                parseMessageHandler.parseMessage(textFrame);
                 logger.info("接收服务端消息:{}", textFrame.text());
 
 
