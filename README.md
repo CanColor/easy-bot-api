@@ -1,2 +1,2 @@
-# easy-mirai-api
-easy-mirai-api
+# easy-bot-api
+easy-bot-api
