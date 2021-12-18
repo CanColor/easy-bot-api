@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.cancolor</groupId>
-    <artifactId>easy-mirai-api</artifactId>
-    <name>easy-mirai-api</name>
+    <artifactId>easy-bot-api</artifactId>
+    <name>easy-bot-api</name>
     <version>1.0</version>
-    <description>easy-mirai-api</description>
+    <description>easy-bot-api</description>
 
     <properties>
         <netty-all.version>4.1.71.Final</netty-all.version>
@@ -85,6 +85,24 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
             <version>2.6.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.22</version>
             <scope>compile</scope>
         </dependency>
 

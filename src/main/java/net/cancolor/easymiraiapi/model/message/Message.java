@@ -3,9 +3,7 @@ package net.cancolor.easymiraiapi.model.message;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import net.cancolor.easymiraiapi.model.message.client.receive.NudgeMessage;
 import net.cancolor.easymiraiapi.model.message.dto.AudioMessageDTO;
-import net.cancolor.easymiraiapi.model.message.dto.SendServerFileMessageDTO;
 
 import java.io.Serializable;
 import java.util.List;
@@ -24,9 +22,11 @@ import java.util.List;
 public class Message implements Serializable {
 
     private static final long serialVersionUID = -258876265869827087L;
-
+    //消息类型
+    private String messageType;
     //普通消息
     private String message;
+
     private NudgeMessage nudgeMessage;
     //消息类型 At
     private AtMessage atMessage;
@@ -39,7 +39,7 @@ public class Message implements Serializable {
     //表情
     private List<FaceMessage> faceMessageList;
     //文件
-    private SendServerFileMessageDTO fileMessage;
+    private FileMessage fileMessage;
     //外链
     private SimpleServiceMessage simpleServiceMessage;
     //加强戳一戳

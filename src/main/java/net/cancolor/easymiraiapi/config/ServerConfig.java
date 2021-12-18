@@ -11,7 +11,7 @@ import java.io.Serializable;
 /**
  * @author SoarDao
  * @title: ServerInfo
- * @projectName easy-mirai-api
+ * @projectName easy-bot-api
  * @description: TODO
  * @date 2021/12/12 17:37
  */

@@ -30,7 +30,7 @@ public class SendClientMessageDTO implements Serializable {
     private Group group;
     //消息类型
     private String comond;
-    //2非匿名 0匿名 是否实名
+    //2群主 1🐕管理 0群员
     private Integer level;
     //是否使用miraiCode
     private Integer isUseMiraiCode=0;

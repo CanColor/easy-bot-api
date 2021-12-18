@@ -21,7 +21,6 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
     ParseMessageHandler parseMessageHandler;
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
-        logger.info("当前握手的状态" + this.handshaker.isHandshakeComplete());
         Channel ch = ctx.channel();
         FullHttpResponse response;
         //进行握手操作
@@ -48,8 +47,6 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
                 TextWebSocketFrame textFrame = (TextWebSocketFrame) frame;
                 parseMessageHandler.parseMessage(textFrame);
                 logger.info("接收服务端消息:{}", textFrame.text());
-
-
             }
             //二进制信息
             if (frame instanceof BinaryWebSocketFrame) {
@@ -101,7 +98,6 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         System.out.println("连接异常：" + cause.getMessage());
-        ctx.close();
     }
 
     @Override

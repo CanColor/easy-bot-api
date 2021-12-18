@@ -1,4 +1,4 @@
-package net.cancolor.easymiraiapi.model.message.client.receive;
+package net.cancolor.easymiraiapi.model.message;
 
 import lombok.Data;
 import lombok.ToString;

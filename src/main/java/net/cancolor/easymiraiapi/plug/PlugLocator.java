@@ -25,8 +25,12 @@ public class PlugLocator implements ApplicationContextAware {
     //有条件限制的插件
     //事件,条件,插件
     private final Map<String, Map<String, PlugInterface>> conditionPlug = new HashMap<>();
-    //无条件限制插件
+    //事件,无条件限制插件
     private final Map<String, List<PlugInterface>> noConditionPlug = new HashMap<>();
+
+    //总是执行的插件
+    private final  List<PlugInterface> allMessagePlug=  new ArrayList<>();
+
     //没启动的插件
     private final List<PlugInterface> noStartPlug = new ArrayList<>();
 
@@ -76,6 +80,7 @@ public class PlugLocator implements ApplicationContextAware {
         if (1 != plug.getStatus()) {
             noStartPlug.add(plugInterface);
         } else {
+            allMessagePlug.add(plugInterface);
             for (String event : eventList) {
                 if (2 == plug.getConditionType()) {
                     Map<String, PlugInterface> plugInterfaceMap = conditionPlug.get(event);
@@ -97,15 +102,19 @@ public class PlugLocator implements ApplicationContextAware {
         implMap.remove(clzName);
     }
 
-    public Map<String, Map<String, PlugInterface>> conditionPlug() {
+    public Map<String, Map<String, PlugInterface>> getConditionPlug() {
         return conditionPlug;
     }
 
-    public Map<String, List<PlugInterface>> noConditionPlug() {
+    public List<PlugInterface> getAllMessagePlug() {
+        return allMessagePlug;
+    }
+
+    public Map<String, List<PlugInterface>> getNoConditionPlug() {
         return noConditionPlug;
     }
 
-    public List<PlugInterface> noStartPlug() {
+    public List<PlugInterface> getNoStartPlug() {
         return noStartPlug;
     }
 }
