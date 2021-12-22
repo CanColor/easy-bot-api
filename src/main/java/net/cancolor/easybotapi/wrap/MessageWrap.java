@@ -1,7 +1,6 @@
 package net.cancolor.easybotapi.wrap;
 
 
-import net.cancolor.easybotapi.constant.AtConstant;
 import net.cancolor.easybotapi.constant.MessageTypeConstant;
 import net.cancolor.easybotapi.model.message.*;
 import net.mamoe.mirai.internal.message.FileMessageImpl;
@@ -51,6 +50,7 @@ public class MessageWrap {
                     continue;
                 }
                 message.setMessage(((PlainText) obj).getContent());
+                messageList.add(checkMessageType(obj, message));
             } else {
                 messageList.add(checkMessageType(obj, message));
             }
@@ -67,7 +67,7 @@ public class MessageWrap {
             AtMessage atMessage = new AtMessage();
             atMessage.setType(clz.getSimpleName());
             message.setAtMessage(atMessage);
-            message.setMessageType(AtConstant.AT);
+            message.setMessageType(MessageTypeConstant.AT);
         }
         //at全体
         else if (obj instanceof AtAll) {
@@ -75,7 +75,7 @@ public class MessageWrap {
             AtMessage atMessage = new AtMessage();
             atMessage.setType(atAll.getClass().getSimpleName());
             message.setAtMessage(atMessage);
-            message.setMessageType(AtConstant.AT_ALL);
+            message.setMessageType(MessageTypeConstant.AT_ALL);
         }
         //图片 gif
         else if (obj instanceof OnlineGroupImageImpl) {

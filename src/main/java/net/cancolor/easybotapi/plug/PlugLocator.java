@@ -80,7 +80,6 @@ public class PlugLocator implements ApplicationContextAware {
         if (1 != plug.getStatus()) {
             noStartPlug.add(plugInterface);
         } else {
-            allMessagePlug.add(plugInterface);
             for (String event : eventList) {
                 if (2 == plug.getConditionType()) {
                     Map<String, PlugInterface> plugInterfaceMap = conditionPlug.get(event);
@@ -93,7 +92,11 @@ public class PlugLocator implements ApplicationContextAware {
                     List<PlugInterface> noConditionPlugList = noConditionPlug.get(event);
                     if (noConditionPlugList == null) {
                         noConditionPlugList = new ArrayList<>();
-                        noConditionPlug.put(event == null ? "All" : event, noConditionPlugList);
+                        if ((event == null || event.equalsIgnoreCase("All") || event.trim().equalsIgnoreCase("")) && plug.getConditionType() == 3) {
+                            allMessagePlug.add(plugInterface);
+                        } else {
+                            noConditionPlug.put(event == null ? "All" : event, noConditionPlugList);
+                        }
                     }
                     noConditionPlugList.add(plugInterface);
                 }

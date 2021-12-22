@@ -2,6 +2,8 @@ package net.cancolor.easybotapi.handler;
 
 import com.alibaba.fastjson.JSONObject;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import net.cancolor.easybotapi.constant.MessageTypeConstant;
+import net.cancolor.easybotapi.model.message.Message;
 import net.cancolor.easybotapi.model.message.dto.SendClientMessageDTO;
 import net.cancolor.easybotapi.plug.PlugInterface;
 import net.cancolor.easybotapi.plug.PlugLocator;
@@ -34,8 +36,11 @@ public class ParseMessageHandler {
             MessageChain messageChain = MiraiCode.deserializeMiraiCode(sendClientMessageDTO.getMiraiCode());
             sendClientMessageDTO.setMessageList(MessageWrap.wrap(messageChain));
         }
+        //事件 条件
         startConditionPlug(sendClientMessageDTO);
+        //事件
         startNoConditionPlug(sendClientMessageDTO);
+        //全部
         startAllMessagePlug(sendClientMessageDTO);
     }
 
@@ -53,7 +58,7 @@ public class ParseMessageHandler {
 
 
     private void startConditionPlug(SendClientMessageDTO sendClientMessageDTO) {
-        Map<String, PlugInterface> plugInterfaceList = conditionPlug.get(sendClientMessageDTO.getMessageList().get(0).getMessageType());
+        Map<String, PlugInterface> plugInterfaceList = conditionPlug.get(checkType(sendClientMessageDTO.getMessageList().get(0)));
         if (plugInterfaceList == null || plugInterfaceList.size() == 0) {
             return;
         }
@@ -87,5 +92,53 @@ public class ParseMessageHandler {
         }
     }
 
+    public String checkType(Message message) {
+        if (message.getMessage() != null) {
+            return MessageTypeConstant.MESSAGE;
+        }
+        if (message.getNudgeMessage() != null) {
+            return MessageTypeConstant.NUDGE;
+        }
+        if (message.getAtMessage().getType().equalsIgnoreCase(MessageTypeConstant.AT)) {
+            return MessageTypeConstant.AT;
+        }
+        if (message.getAtMessage().getType().equals(MessageTypeConstant.AT_ALL)) {
+            return MessageTypeConstant.AT_ALL;
+        }
+        if (message.getPokeMessage() != null) {
+            return MessageTypeConstant.POKE;
+        }
+        if (message.getImageMessage() != null) {
+            return "";
+        }
+        if (message.getFlashImageMessage() != null) {
+            return "";
+        }
+        if (message.getFaceMessageList() != null) {
+            return "";
+        }
+        if (message.getFileMessage() != null) {
+            return "";
+        }
+        if (message.getSimpleServiceMessage() != null) {
+            return "";
+        }
+        if (message.getVipFaceMessage() != null) {
+            return "";
+        }
+        if (message.getContactsMessage() != null) {
+            return "";
+        }
+        if (message.getMusicShare() != null) {
+            return "";
+        }
+        if (message.getAudioMessage() != null) {
+            return "";
+        }
+        if (message.getUrlMessage() != null) {
+            return "";
+        }
+        return "All";
 
+    }
 }

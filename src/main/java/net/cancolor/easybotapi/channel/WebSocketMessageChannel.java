@@ -1,9 +1,9 @@
 package net.cancolor.easybotapi.channel;
 
 import io.netty.channel.Channel;
-import net.cancolor.easybotapi.constant.AtConstant;
 import net.cancolor.easybotapi.constant.ContactsConstant;
 import net.cancolor.easybotapi.constant.MessageConstant;
+import net.cancolor.easybotapi.constant.MessageTypeConstant;
 import net.cancolor.easybotapi.model.message.*;
 import net.cancolor.easybotapi.model.message.dto.AudioMessageDTO;
 import net.cancolor.easybotapi.model.message.dto.SendServerMessageDTO;
@@ -137,7 +137,7 @@ public class WebSocketMessageChannel implements MessageChannel {
     public WebSocketMessageChannel addAt() {
         Message message = new Message();
         AtMessage atMessage = new AtMessage();
-        atMessage.setType(AtConstant.AT);
+        atMessage.setType(MessageTypeConstant.AT);
         message.setAtMessage(atMessage);
         messageList.add(message);
         return this;
@@ -147,7 +147,7 @@ public class WebSocketMessageChannel implements MessageChannel {
     public WebSocketMessageChannel addAtAll() {
         Message message = new Message();
         AtMessage atMessage = new AtMessage();
-        atMessage.setType(AtConstant.AT_ALL);
+        atMessage.setType(MessageTypeConstant.AT_ALL);
         message.setAtMessage(atMessage);
         messageList.add(message);
         return this;

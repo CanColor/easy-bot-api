@@ -11,9 +11,9 @@ public class MessageTypeConstant {
     public final static String AT_ALL = "AtAll";
 
     public final static String AT = "At";
-    public final static String POKE = "poke";
-
-
+    public final static String POKE = "Poke";
+    public final static String NUDGE = "Nudge";
+    public final static String MESSAGE = "Message";
 
 
 }
